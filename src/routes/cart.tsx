@@ -74,12 +74,12 @@ function CartPage() {
             <span>Total</span>
             <span>{formatPrice(subtotal)}</span>
           </div>
-          <button
-            onClick={() => { clear(); setCheckedOut(true); }}
-            className="mt-6 w-full rounded-full bg-primary py-3 text-sm font-medium text-primary-foreground hover:opacity-90"
+          <Link
+            to="/checkout"
+            className="mt-6 block w-full rounded-full bg-primary py-3 text-center text-sm font-medium text-primary-foreground hover:opacity-90"
           >
             Checkout
-          </button>
+          </Link>
           <Link to="/shop" className="mt-3 block text-center text-xs text-muted-foreground hover:text-foreground">
             Continue shopping
           </Link>

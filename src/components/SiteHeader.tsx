@@ -1,11 +1,11 @@
-import { Link } from "@tanstack/react-router";
+import { Link, ClientOnly } from "@tanstack/react-router";
 import { useCart } from "@/lib/cart";
-import { ClientOnly } from "@tanstack/react-router";
+import { useAuth, useWishlist } from "@/lib/store";
 
 export function SiteHeader() {
   return (
     <header className="sticky top-0 z-40 border-b border-border/60 bg-background/80 backdrop-blur">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-4">
         <Link to="/" className="font-display text-xl tracking-tight">
           Atelier<span className="text-accent">.</span>
         </Link>
@@ -15,22 +15,32 @@ export function SiteHeader() {
           <Link to="/about" activeProps={{ className: "text-foreground" }} className="hover:text-foreground">About</Link>
         </nav>
         <ClientOnly fallback={<div className="w-16" />}>
-          <CartLink />
+          <HeaderActions />
         </ClientOnly>
       </div>
     </header>
   );
 }
 
-function CartLink() {
+function HeaderActions() {
   const { count } = useCart();
+  const { ids } = useWishlist();
+  const { user } = useAuth();
   return (
-    <Link to="/cart" className="group inline-flex items-center gap-2 text-sm">
-      <span className="hover:text-accent">Cart</span>
-      <span className="inline-flex h-6 min-w-6 items-center justify-center rounded-full bg-primary px-2 text-xs text-primary-foreground">
-        {count}
-      </span>
-    </Link>
+    <div className="flex items-center gap-4 text-sm">
+      <Link to="/wishlist" className="hidden hover:text-accent sm:inline">
+        ♡ <span className="text-muted-foreground">{ids.length}</span>
+      </Link>
+      <Link to={user ? "/account" : "/auth"} className="hover:text-accent">
+        {user ? user.name.split(" ")[0] : "Sign in"}
+      </Link>
+      <Link to="/cart" className="group inline-flex items-center gap-2">
+        <span className="hover:text-accent">Cart</span>
+        <span className="inline-flex h-6 min-w-6 items-center justify-center rounded-full bg-primary px-2 text-xs text-primary-foreground">
+          {count}
+        </span>
+      </Link>
+    </div>
   );
 }
 
@@ -48,6 +58,8 @@ export function SiteFooter() {
           <div className="mb-2 font-medium">Shop</div>
           <ul className="space-y-1 text-muted-foreground">
             <li><Link to="/shop" className="hover:text-foreground">All products</Link></li>
+            <li><Link to="/wishlist" className="hover:text-foreground">Wishlist</Link></li>
+            <li><Link to="/orders" className="hover:text-foreground">Orders</Link></li>
             <li><Link to="/about" className="hover:text-foreground">Our story</Link></li>
           </ul>
         </div>
