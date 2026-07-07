@@ -1,7 +1,6 @@
 import { createFileRoute, Link, ClientOnly } from "@tanstack/react-router";
 import { useCart } from "@/lib/cart";
 import { formatPrice } from "@/lib/catalog";
-import { useState } from "react";
 
 export const Route = createFileRoute("/cart")({
   head: () => ({
@@ -19,20 +18,7 @@ export const Route = createFileRoute("/cart")({
 });
 
 function CartPage() {
-  const { lines, subtotal, setQty, remove, clear, count } = useCart();
-  const [checkedOut, setCheckedOut] = useState(false);
-
-  if (checkedOut) {
-    return (
-      <section className="mx-auto max-w-xl px-6 py-24 text-center">
-        <h1 className="font-display text-4xl">Thank you.</h1>
-        <p className="mt-4 text-muted-foreground">
-          Your order has been received. A confirmation is on its way — this is a demo storefront, so no charge was made.
-        </p>
-        <Link to="/shop" className="mt-8 inline-flex rounded-full bg-primary px-6 py-3 text-sm text-primary-foreground">Keep browsing</Link>
-      </section>
-    );
-  }
+  const { lines, subtotal, setQty, remove, count } = useCart();
 
   if (count === 0) {
     return (

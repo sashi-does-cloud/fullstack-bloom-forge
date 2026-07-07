@@ -1,4 +1,4 @@
-import { createFileRoute, Link, Outlet, ClientOnly } from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
 import { useOrders, useAuth } from "@/lib/store";
 import { formatPrice } from "@/lib/catalog";
 
@@ -13,8 +13,6 @@ export const Route = createFileRoute("/orders")({
   component: () => <Outlet />,
 });
 
-// Sibling index route below (orders.index.tsx) handles /orders
-// This wrapper renders <Outlet /> so /orders/$id can nest.
 export function OrdersList() {
   const { orders } = useOrders();
   const { user } = useAuth();
@@ -61,5 +59,3 @@ export function OrdersList() {
     </section>
   );
 }
-
-export { OrdersList as _keep };
