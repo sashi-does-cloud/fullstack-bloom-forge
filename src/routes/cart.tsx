@@ -1,7 +1,6 @@
 import { createFileRoute, Link, ClientOnly } from "@tanstack/react-router";
 import { useCart } from "@/lib/cart";
 import { formatPrice } from "@/lib/catalog";
-import { useState } from "react";
 
 export const Route = createFileRoute("/cart")({
   head: () => ({
@@ -19,20 +18,7 @@ export const Route = createFileRoute("/cart")({
 });
 
 function CartPage() {
-  const { lines, subtotal, setQty, remove, clear, count } = useCart();
-  const [checkedOut, setCheckedOut] = useState(false);
-
-  if (checkedOut) {
-    return (
-      <section className="mx-auto max-w-xl px-6 py-24 text-center">
-        <h1 className="font-display text-4xl">Thank you.</h1>
-        <p className="mt-4 text-muted-foreground">
-          Your order has been received. A confirmation is on its way — this is a demo storefront, so no charge was made.
-        </p>
-        <Link to="/shop" className="mt-8 inline-flex rounded-full bg-primary px-6 py-3 text-sm text-primary-foreground">Keep browsing</Link>
-      </section>
-    );
-  }
+  const { lines, subtotal, setQty, remove, count } = useCart();
 
   if (count === 0) {
     return (
@@ -88,12 +74,12 @@ function CartPage() {
             <span>Total</span>
             <span>{formatPrice(subtotal)}</span>
           </div>
-          <button
-            onClick={() => { clear(); setCheckedOut(true); }}
-            className="mt-6 w-full rounded-full bg-primary py-3 text-sm font-medium text-primary-foreground hover:opacity-90"
+          <Link
+            to="/checkout"
+            className="mt-6 block w-full rounded-full bg-primary py-3 text-center text-sm font-medium text-primary-foreground hover:opacity-90"
           >
             Checkout
-          </button>
+          </Link>
           <Link to="/shop" className="mt-3 block text-center text-xs text-muted-foreground hover:text-foreground">
             Continue shopping
           </Link>
